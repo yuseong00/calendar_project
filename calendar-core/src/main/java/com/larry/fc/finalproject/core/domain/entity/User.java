@@ -1,5 +1,6 @@
 package com.larry.fc.finalproject.core.domain.entity;
 
+import com.larry.fc.finalproject.core.util.Encryptor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +26,9 @@ public class User extends BaseEntity {
         this.email = email;
         this.password = password;
         this.birthday = birthday;
+    }
+
+    public boolean isMatched(Encryptor encryptor, String pw) {
+        return encryptor.isMatch(pw, this.password);
     }
 }
