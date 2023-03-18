@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.toList;
 
 
 @Data
-public class NotificationCreateReq {
+public class CreateNotificationReq {
     private final String title;
     private final LocalDateTime notifyAt;
     private final RepeatInfo repeatInfo;  // 반복설정

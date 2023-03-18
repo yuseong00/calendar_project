@@ -4,7 +4,7 @@ import api.dto.LoginReq;
 import api.dto.SignUpReq;
 import com.larry.fc.finalproject.core.domain.entity.User;
 import com.larry.fc.finalproject.core.dto.UserCreateReq;
-import com.larry.fc.finalproject.core.util.service.UserService;
+import com.larry.fc.finalproject.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,20 +1,18 @@
 package api.controller;
 
-import api.dto.AuthUser;
-import api.dto.EventCreateReq;
-import api.dto.NotificationCreateReq;
-import api.dto.TaskCreateReq;
+import api.dto.*;
 import api.service.EventService;
 import api.service.NotificationService;
+import api.service.ScheduleQueryService;
 import api.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/schedule")
@@ -24,10 +22,12 @@ public class ScheduleController {
     private final TaskService taskService;
     private final EventService eventService;
     private final NotificationService notificationService;
+    private final ScheduleQueryService scheduleQueryService;
+
 
 
     @PostMapping("/tasks")  //할일
-    public ResponseEntity<Void> createTask(@RequestBody TaskCreateReq taskCreateReq,
+    public ResponseEntity<Void> createTask(@RequestBody CreateTaskReq taskCreateReq,
                                            HttpSession session,
                                            AuthUser authUser){
 //        //유저의 정보를 갖고온다
@@ -52,8 +52,8 @@ public class ScheduleController {
 
 
     }
-    @PostMapping("/event")
-    public ResponseEntity<Void> createTask(@RequestBody EventCreateReq eventCreateReq,
+    @PostMapping("/events")
+    public ResponseEntity<Void> createTask(@RequestBody CreateEventReq eventCreateReq,
                                            AuthUser authUser) {
         eventService.create(eventCreateReq, authUser);
         return ResponseEntity.ok().build();
@@ -61,11 +61,20 @@ public class ScheduleController {
 
     @PostMapping("/notifications")
     public ResponseEntity<Void> createTask(
-            @RequestBody NotificationCreateReq notificationCreateReq, AuthUser authUser) {
+            @RequestBody CreateNotificationReq notificationCreateReq, AuthUser authUser) {
         notificationService.create(notificationCreateReq, authUser);
         return ResponseEntity.ok().build();
     }
 
-
+    @GetMapping("/day")
+    // 일별조회는 tasks ,events,notifications 싹 다 묶어서 조회를 해야 한다.
+    public List<ForListScheduleDto> getSchedulesByDay(
+            AuthUser authUser,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+//@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) 주석은 date 매개변수의 값이 ISO 날짜(예: "2023-03-18")로
+// 형식화되어야 함을 지정합니다. 이 주석은 Spring이 date 매개변수의 문자열 값을 LocalDate 객체로 자동 변환    ) {
+        return scheduleQueryService.getSchedulesByDay(date == null ? LocalDate.now() : date, authUser);
+    }
 
 }

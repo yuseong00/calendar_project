@@ -1,13 +1,13 @@
 package api.service;
 
 import api.dto.AuthUser;
-import api.dto.EventCreateReq;
+import api.dto.CreateEventReq;
 import com.larry.fc.finalproject.core.domain.RequestStatus;
 import com.larry.fc.finalproject.core.domain.entity.Engagement;
 import com.larry.fc.finalproject.core.domain.entity.Schedule;
 import com.larry.fc.finalproject.core.domain.entity.repository.EngagementRepository;
 import com.larry.fc.finalproject.core.domain.entity.repository.ScheduleRepository;
-import com.larry.fc.finalproject.core.util.service.UserService;
+import com.larry.fc.finalproject.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ public class EventService {
     private final EmailService emailService;
 
     @Transactional
-    public void create(EventCreateReq req, AuthUser authUser) {
+    public void create(CreateEventReq req, AuthUser authUser) {
         // attendees 의 스케쥴 시간과 겹치지 않는지?
         final List<Engagement> engagementList =
                 //findall을 쓰면 데이터가 얼마나 있는지 알고 무식하게 다 갖고오면 과부하

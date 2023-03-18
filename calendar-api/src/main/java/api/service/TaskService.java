@@ -1,10 +1,10 @@
 package api.service;
 
 import api.dto.AuthUser;
-import api.dto.TaskCreateReq;
+import api.dto.CreateTaskReq;
 import com.larry.fc.finalproject.core.domain.entity.Schedule;
 import com.larry.fc.finalproject.core.domain.entity.repository.ScheduleRepository;
-import com.larry.fc.finalproject.core.util.service.UserService;
+import com.larry.fc.finalproject.core.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class TaskService {
     private final UserService userService;
     private final ScheduleRepository scheduleRepository;
 
-    public void create(TaskCreateReq req, AuthUser authUser) {
+    public void create(CreateTaskReq req, AuthUser authUser) {
         final Schedule taskSchedule = Schedule.task(
                 req.getTitle(),
                 req.getDescription(),
