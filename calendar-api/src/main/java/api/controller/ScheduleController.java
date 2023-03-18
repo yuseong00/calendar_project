@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -75,6 +76,22 @@ public class ScheduleController {
 //@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) 주석은 date 매개변수의 값이 ISO 날짜(예: "2023-03-18")로
 // 형식화되어야 함을 지정합니다. 이 주석은 Spring이 date 매개변수의 문자열 값을 LocalDate 객체로 자동 변환    ) {
         return scheduleQueryService.getSchedulesByDay(date == null ? LocalDate.now() : date, authUser);
+    }
+
+    @GetMapping("/week")
+    public List<ForListScheduleDto> getSchedulesByWeek(
+            AuthUser authUser,           //startOfWeek 특정주의 첫날짜로 주어지면 그 날짜로부터 일주일치를 반환한다.
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startOfWeek
+    ) {
+        return scheduleQueryService.getSchedulesByWeek(startOfWeek == null ? LocalDate.now() : startOfWeek, authUser);
+    }
+
+    @GetMapping("/month")
+    public List<ForListScheduleDto> getSchedulesByMonth(
+            AuthUser authUser,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") String yearMonth //2020-08
+    ) {
+        return scheduleQueryService.getSchedulesByMonth(yearMonth == null ? YearMonth.now() : YearMonth.parse(yearMonth), authUser);
     }
 
 }

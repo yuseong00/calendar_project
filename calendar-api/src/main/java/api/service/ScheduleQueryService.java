@@ -5,11 +5,13 @@ import api.dto.DtoConverter;
 import api.dto.ForListScheduleDto;
 import com.larry.fc.finalproject.core.domain.entity.repository.EngagementRepository;
 import com.larry.fc.finalproject.core.domain.entity.repository.ScheduleRepository;
+import com.larry.fc.finalproject.core.util.Period;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -42,5 +44,42 @@ public class ScheduleQueryService {
                         .map(engagement -> DtoConverter.toForListDto(engagement.getSchedule()))
         ).collect(toList()); //stream 값을 list 값으로 변환 한다.
     }
+    //localDate를 기준으로 일주일동안 자료를 반환
+    public List<ForListScheduleDto> getSchedulesByWeek(LocalDate startOfWeek, AuthUser authUser) {
+        //6일을 더해야 입력한 날짜를 포함해서 총 7일동안의 기간이 섫정된다.
+        final Period period = Period.of(startOfWeek, startOfWeek.plusDays(6));
 
+
+
+        return Stream.concat(
+                scheduleRepository
+                        .findAllByWriter_Id(authUser.getId())
+                        .stream()
+                        .filter(schedule -> schedule.isOverlapped(period))
+                        .map(schedule -> DtoConverter.toForListDto(schedule)),
+                engagementRepository
+                        .findAllByAttendeeId(authUser.getId())
+                        .stream()
+                        .filter(engagement -> engagement.isOverlapped(period))
+                        .map(engagement -> DtoConverter.toForListDto(engagement.getSchedule()))
+        ).collect(toList());
+    }
+    //yearMonth 기준으로 한달동안 자료를 반환
+    public List<ForListScheduleDto> getSchedulesByMonth(YearMonth yearMonth, AuthUser authUser) {
+        final Period period = Period.of(yearMonth.atDay(1), yearMonth.atEndOfMonth());
+        //atDay(1) 를 쓰면 그 달에 1일을 가져온다.
+
+        return Stream.concat(
+                scheduleRepository
+                        .findAllByWriter_Id(authUser.getId())
+                        .stream()
+                        .filter(schedule -> schedule.isOverlapped(period))
+                        .map(schedule -> DtoConverter.toForListDto(schedule)),
+                engagementRepository
+                        .findAllByAttendeeId(authUser.getId())
+                        .stream()
+                        .filter(engagement -> engagement.isOverlapped(period))
+                        .map(engagement -> DtoConverter.toForListDto(engagement.getSchedule()))
+        ).collect(toList());
+    }
 }
