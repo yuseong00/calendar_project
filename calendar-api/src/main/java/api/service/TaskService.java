@@ -1,10 +1,10 @@
-package api.controller;
+package api.service;
 
 import api.dto.AuthUser;
 import api.dto.TaskCreateReq;
 import com.larry.fc.finalproject.core.domain.entity.Schedule;
 import com.larry.fc.finalproject.core.domain.entity.repository.ScheduleRepository;
-import com.larry.fc.finalproject.core.service.UserService;
+import com.larry.fc.finalproject.core.util.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

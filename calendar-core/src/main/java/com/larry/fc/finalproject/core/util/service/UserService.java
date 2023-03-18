@@ -1,4 +1,4 @@
-package com.larry.fc.finalproject.core.service;
+package com.larry.fc.finalproject.core.util.service;
 
 import com.larry.fc.finalproject.core.domain.entity.User;
 import com.larry.fc.finalproject.core.domain.entity.repository.UserRepository;
