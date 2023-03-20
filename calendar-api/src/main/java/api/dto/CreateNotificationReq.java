@@ -1,8 +1,12 @@
 package api.dto;
 
 import com.larry.fc.finalproject.core.domain.type.TimeUnit;
+import com.larry.fc.finalproject.core.exception.CalendarException;
+import com.larry.fc.finalproject.core.exception.ErrorCode;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +18,9 @@ import static java.util.stream.Collectors.toList;
 
 @Data
 public class CreateNotificationReq {   // 알림
+    @NotBlank
     private final String title;
+    @NotNull
     private final LocalDateTime notifyAt;
     private final RepeatInfo repeatInfo;  // 반복설정
 
@@ -40,7 +46,7 @@ public class CreateNotificationReq {   // 알림
                                 case YEAR:
                                     return notifyAt.plusYears(increment);
                                 default:
-                                    throw new RuntimeException("bad request. not matched time unit");
+                                    throw new CalendarException(ErrorCode.BAD_REQUEST);
                             }
                         }
                 )

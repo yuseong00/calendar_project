@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ScheduleController {
 
 
     @PostMapping("/tasks")  //할일
-    public ResponseEntity<Void> createTask(@RequestBody CreateTaskReq taskCreateReq,
+    public ResponseEntity<Void> createTask(@Valid @RequestBody CreateTaskReq taskCreateReq,
                                            HttpSession session,
                                            AuthUser authUser){
 //        //유저의 정보를 갖고온다
@@ -54,7 +55,7 @@ public class ScheduleController {
 
     }
     @PostMapping("/events")
-    public ResponseEntity<Void> createTask(@RequestBody CreateEventReq eventCreateReq,
+    public ResponseEntity<Void> createTask(@Valid @RequestBody CreateEventReq eventCreateReq,
                                            AuthUser authUser) {
         eventService.create(eventCreateReq, authUser);
         return ResponseEntity.ok().build();
@@ -62,7 +63,7 @@ public class ScheduleController {
 
     @PostMapping("/notifications")
     public ResponseEntity<Void> createTask(
-            @RequestBody CreateNotificationReq notificationCreateReq, AuthUser authUser) {
+            @Valid @RequestBody CreateNotificationReq notificationCreateReq, AuthUser authUser) {
         notificationService.create(notificationCreateReq, authUser);
         return ResponseEntity.ok().build();
     }
