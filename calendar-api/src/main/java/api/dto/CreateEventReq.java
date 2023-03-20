@@ -9,7 +9,7 @@ import java.util.List;
  * @author Larry
  */
 @Data
-public class CreateEventReq {
+public class CreateEventReq {   //이벤트
     private final String title;
     private final String description;
     private final LocalDateTime startAt;

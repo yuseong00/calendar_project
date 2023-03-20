@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * @author Larry
  */
 @Data
-public class CreateTaskReq {
+public class CreateTaskReq {  //할일
     private final String title; // 제목
     private final String description; //내용
     private final LocalDateTime taskAt;  //일정
