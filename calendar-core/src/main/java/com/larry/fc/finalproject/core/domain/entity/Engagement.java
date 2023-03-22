@@ -37,9 +37,9 @@ public class Engagement extends BaseEntity {
         this.attendee = attendee;
     }
 
-    public boolean isOverlapped(LocalDate date) {
-        return this.schedule.isOverlapped(date);
-    }
+//    public boolean isOverlapped(LocalDate date) {   // schedulequeryservice 리택토링 하면서 정리
+//        return this.schedule.isOverlapped(date);
+//    }
 
     public boolean isOverlapped(Period period) {
         return this.schedule.isOverlapped(period);

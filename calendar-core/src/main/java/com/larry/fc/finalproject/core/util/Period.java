@@ -22,19 +22,16 @@ public class Period {
     public static Period of(LocalDateTime startAt, LocalDateTime endAt) {
         return new Period(startAt, endAt == null ? startAt : endAt);
     }
-
+    //주별조회, 월별조회시 예외처리 발생
     public static Period of(LocalDate startAt, LocalDate endAt) {
-        return new Period(startAt.atStartOfDay(),
-                endAt == null ? startAt.atStartOfDay() : endAt.atStartOfDay());
+        return new Period(startAt.atStartOfDay(), endAt == null ? startAt.atStartOfDay() : endAt.atStartOfDay());
     }
 
     public static Period of(LocalDateTime startAt) {
         return new Period(startAt, startAt);
     }
 
-    public boolean isOverlapped(Period period) {
-        return isOverlapped(period.startAt, period.endAt);
-    }
+    //입력한 날짜의 시작과 끝에  db에 있는 시작과, 끝의 있는 교차하는 정보를 반환한다.
     public boolean isOverlapped(LocalDateTime startAt, LocalDateTime endAt) {
         return this.startAt.isBefore(endAt) && startAt.isBefore(this.endAt);
     }
@@ -50,5 +47,8 @@ public class Period {
     //그니까 내가 21일 1~3시를 입력하면 21일 하루 전체를 date 값으로 치환을 해버린다. 단순하게 시간을 하루전체로 치환한다.
     //주어진 시간 범위를 하루 전체로 대체하여 모든 시간을 확인하지 않아도 된다.
 
-
+    //주별,월별 조회시 필요
+    public boolean isOverlapped(Period period) {
+        return isOverlapped(period.startAt, period.endAt);
+    }
 }

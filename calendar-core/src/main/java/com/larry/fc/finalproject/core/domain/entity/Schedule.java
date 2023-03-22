@@ -80,6 +80,8 @@ public class Schedule extends BaseEntity {
     public boolean isOverlapped(LocalDate date) {
         return Period.of(this.getStartAt(), this.getEndAt()).isOverlapped(date);
     }
+
+    //주별,월별 조회시 필요
     public boolean isOverlapped(Period period) {
         return Period.of(this.getStartAt(), this.getEndAt()).isOverlapped(period);
     }
