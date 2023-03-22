@@ -12,13 +12,13 @@ import java.util.List;
  */
 @Data
 public class CreateEventReq {   //이벤트
-    @NotBlank
+     @NotBlank
     private final String title;
     private final String description;
-    @NotNull
+     @NotNull
     private final LocalDateTime startAt;
-    @NotNull
+     @NotNull
     private final LocalDateTime endAt;
-    @NotNull
+     @NotNull
     private final List<Long> attendeeIds;
 }
